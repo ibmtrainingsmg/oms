@@ -1,11 +1,14 @@
 package com.ibm.demo;
 
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,27 +28,36 @@ public class OrderController { // front end
 	@PostMapping("/order")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	String createOrder(@RequestBody @Valid Order order, BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
-			throw new IllegalArgumentException("Something went wrong. Please retry");
-		}
+		validateModel(bindingResult);
 		System.out.println(order);
 		return orderService.createOrder(order);
 	}
 	
 	@GetMapping("/order")
-	String getOrder() {
-		return orderService.getOrder();
+	List<Order> getOrders() {
+		return orderService.getOrders();
 	}
 	
+	@GetMapping("/order/{id}")
+	Order getOrder(@PathVariable("id") int orderId) {
+		return orderService.getOrder(orderId);
+	}
+	
+	private void validateModel(Errors bindingResult) { // DRY : Don't Repeat Yourself
+		if(bindingResult.hasErrors()) {
+			throw new IllegalArgumentException("Something went wrong. Please retry");
+		}
+	}
 	@PutMapping("/order/{id}")
-	String updateOrder(@PathVariable("id") int orderId) {
+	void updateOrder(@RequestBody @Valid Order order, BindingResult bindingResult,@PathVariable("id") int orderId) {
+		validateModel(bindingResult);
 		System.out.println(orderId);
-		return orderService.updateOrder(orderId); // delegate
+		orderService.updateOrder(orderId); // delegate
 	}
 	
 	@DeleteMapping("/order/{id}")
-	String deleteOrder(@PathVariable("id") int orderId) {
+	void deleteOrder(@PathVariable("id") int orderId) {
 		System.out.println(orderId);
-		return orderService.deleteOrder(orderId);
+		orderService.deleteOrder(orderId);
 	}
 }

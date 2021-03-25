@@ -1,5 +1,8 @@
 package com.ibm.demo.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ibm.demo.entity.Order;
@@ -10,15 +13,20 @@ public class OrderService { // spring bean
 		return "order created";
 	}
 	
-	public String getOrder() {
-		return "order read";
+	public Order getOrder(int orderId) {
+		return new Order();
 	}
 	
-	public String updateOrder(int orderId) {
-		return "order updated";
+	public List<Order> getOrders() {
+		return new ArrayList<Order>();
 	}
 	
-	public String deleteOrder(int orderId) {
-		return "order deleted";
+	public void updateOrder(int orderId) {
+		
 	}
+	
+	public void deleteOrder(int orderId) {
+		System.out.println("order deleted");
+	}
+
 }
