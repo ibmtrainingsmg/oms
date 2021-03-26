@@ -33,8 +33,8 @@ public class OrderService { // spring bean
 		orderRepository.save(order);
 	}
 	
-	public void deleteOrder(int orderId) {
-		System.out.println("order deleted");
+	public void deleteOrder(String orderId) {
+		orderRepository.deleteById(orderId);;
 	}
 
 }

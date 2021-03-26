@@ -63,7 +63,7 @@ public class OrderController { // front end
 	}
 	
 	@DeleteMapping("/order/{id}")
-	void deleteOrder(@PathVariable("id") int orderId) {
+	void deleteOrder(@PathVariable("id") String orderId) {
 		System.out.println(orderId);
 		orderService.deleteOrder(orderId);
 	}
