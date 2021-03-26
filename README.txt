@@ -1,6 +1,6 @@
 Order API
 
 C - order/ + POST
-R
-U
-D
+R - order/ + GET
+U - order/{id} + PUT
+D - order/{id} + DELETE

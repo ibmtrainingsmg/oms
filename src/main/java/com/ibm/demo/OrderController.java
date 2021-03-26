@@ -2,6 +2,7 @@ package com.ibm.demo;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -38,8 +39,13 @@ public class OrderController { // front end
 		return orderService.getOrders();
 	}
 	
+	/**
+	 * method to search for an order
+	 * @param orderId
+	 * @return zero or matching order
+	 */
 	@GetMapping("/order/{id}")
-	Order getOrder(@PathVariable("id") int orderId) {
+	Optional<Order> getOrder(@PathVariable("id") String orderId) {
 		return orderService.getOrder(orderId);
 	}
 	
@@ -49,10 +55,11 @@ public class OrderController { // front end
 		}
 	}
 	@PutMapping("/order/{id}")
-	void updateOrder(@RequestBody @Valid Order order, BindingResult bindingResult,@PathVariable("id") int orderId) {
+	void updateOrder(@RequestBody @Valid Order order, BindingResult bindingResult,@PathVariable("id") String orderId) {
 		validateModel(bindingResult);
 		System.out.println(orderId);
-		orderService.updateOrder(orderId); // delegate
+		order.setId(orderId);
+		orderService.updateOrder(order); // delegate
 	}
 	
 	@DeleteMapping("/order/{id}")
